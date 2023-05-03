@@ -1,0 +1,28 @@
+.button {
+    background: linear-gradient(180deg, rgba(149, 125, 205, 0.5) 0%, rgba(82, 61, 127, 0.5) 100%);
+    transition-duration: 0.3s;
+    margin-left: 1.68rem;
+    margin-right: 1.68rem;
+    height: 3.625rem;
+    width: 17.125rem;
+    border-radius: 11rem;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 0.75rem;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button:hover {
+    background: linear-gradient(180deg, rgba(149, 125, 205, 0.70) 0%, rgba(82, 61, 127, 0.70) 100%);
+    cursor: pointer;
+
+}
+
+.button:active {
+    background: linear-gradient(180deg, rgba(149, 125, 205, 0.95) 0%, rgba(82, 61, 127, 0.95) 100%);
+    cursor: pointer;
+}

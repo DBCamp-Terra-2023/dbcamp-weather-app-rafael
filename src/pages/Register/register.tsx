@@ -1,8 +1,8 @@
 import React from 'react'
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import Input from "../../ui/components/Input";
+import Button from "../../ui/components/Button";
 import styles from './register.module.css';
-import Card from "../../components/Card";
+import Card from "../../ui/components/Card";
 
 function Register() {
   return (

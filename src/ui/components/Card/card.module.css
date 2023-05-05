@@ -86,7 +86,7 @@ select option {
 .weatherData {
     display: flex;
     text-align: left;
-    gap: 4rem;
+    gap: 10%;
     margin-top: 5.2%;
 }
 

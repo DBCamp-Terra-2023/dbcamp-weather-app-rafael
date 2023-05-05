@@ -1,6 +1,5 @@
 .App {
     position: relative;
-    background: linear-gradient(180deg, #352163 0%, #331972 57.81%, #33143C 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,4 +7,5 @@
     font-size: calc(10px + 2vmin);
     color: white;
     text-align: center;
+    
 }

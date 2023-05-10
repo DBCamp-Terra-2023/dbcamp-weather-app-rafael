@@ -1,9 +1,124 @@
-import React from 'react'
+import React, {useState} from 'react';
+import {useFetch} from "../../hooks/useFetch";
+import CircularProgress from '@mui/material/CircularProgress';
+import snow from '../../assets/weather_images/both/snow.png';
+import storm from '../../assets/weather_images/both/storm.png';
+import cloudy_day from '../../assets/weather_images/day/cloudy_day.png';
+import rainy_day from '../../assets/weather_images/day/rainy_day.svg';
+import sun_with_clouds from '../../assets/weather_images/day/sun_with_clouds.svg';
+import sunny from '../../assets/weather_images/day/sunny.png';
+import clear_night from '../../assets/weather_images/night/clear_night.png';
+import cloudy_night from '../../assets/weather_images/night/cloudy_night.png';
+import rainy_night from '../../assets/weather_images/night/rainy_night.svg';
+import styles from './home.module.css';
+import Input from "../../ui/components/Input";
+import Button from "../../ui/components/Button";
+
+type ImageData = {
+  [key: string]: string;
+}
+
+type weatherData = {
+  idWheaterData: number;
+  city: { name: string }
+  date: string;
+  dayTimeEnum: string;
+  nightTimeEnum: string;
+  maxTemperature: number;
+  minTemperature: number;
+  precipitation: number;
+  humidity: number;
+  windSpeed: number;
+}
 
 function Home() {
+  const [cityName, setCityName] = useState("São Paulo");
+  const {data: weatherList, isFetching} = useFetch<weatherData[]>(`${cityName}/list-all-week`);
+
+  const currentHour = new Date().getHours();
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}/${month}/${year}`;
+  };
+
+  const dayImages: ImageData = {
+    'CHUVA': rainy_day,
+    'NEVE': snow,
+    'NUBLADO': cloudy_day,
+    'SOL': sunny,
+    'SOL_COM_NUVENS': sun_with_clouds,
+    'TEMPESTADE': storm,
+  };
+  const nightImages: ImageData = {
+    'CHUVA': rainy_night,
+    'LIMPA': clear_night,
+    'NEVE': snow,
+    'NUBLADA': cloudy_night,
+    'TEMPESTADE': storm,
+  };
+
+
   return (
-    <div>Home</div>
+    <div className={'flex gap-4 items-center text-center'}>
+      <Input/>
+      <ul className={'flex-col gap-2 items-center text-center'}>
+        {isFetching && (
+          <div className={styles.loading}>
+            <CircularProgress sx={{mx: 'auto', my: 'auto', display: 'block'}}/>
+
+          </div>
+        )}
+        {weatherList?.map(weather => {
+          // Conditionally render the dayTimeEnum and nightTimeEnum
+          const formattedDate = formatDate(weather.date);
+
+          const showDayTimeEnum = currentHour >= 0 && currentHour < 17;
+          const showNightTimeEnum = currentHour >= 18 && currentHour < 23;
+
+          const dayTimeEnumImage = dayImages[weather.dayTimeEnum];
+          const nightTimeEnumImage = nightImages[weather.nightTimeEnum];
+
+          const formatEnum = (str: string) => {
+            return str
+              .replace(/_/g, ' ')
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+              .join(' ');
+          };
+
+          return (
+            <div className={styles.daysWeather}>
+              <li key={weather.idWheaterData} className={'flex-col gap-2 items-center text-center'}>
+
+                <p className={styles.weatherInfo}>{formattedDate}</p>{showDayTimeEnum && (
+                <>
+                  <img className={styles.imageIcon} src={dayTimeEnumImage} alt={weather.dayTimeEnum}/>
+                  <p className={styles.weatherInfo}>{formatEnum(weather.dayTimeEnum)}</p>
+                </>
+              )}
+                {showNightTimeEnum && (
+                  <>
+                    <img className={styles.imageIcon} src={nightTimeEnumImage} alt={weather.nightTimeEnum}/>
+                    <p className={styles.weatherInfo}>{formatEnum(weather.dayTimeEnum)}</p>
+                  </>
+                )}
+                <p className={styles.weatherInfo}>{weather.maxTemperature}ºC</p>
+                <p className={styles.weatherInfo}>{weather.minTemperature}ºC</p>
+                <p className={styles.weatherInfo}>{weather.precipitation}%</p>
+                <p className={styles.weatherInfo}>{weather.humidity}%</p>
+                <p className={styles.weatherInfo}>{weather.windSpeed}km/h</p>
+
+              </li>
+            </div>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
-export default Home
+export default Home;

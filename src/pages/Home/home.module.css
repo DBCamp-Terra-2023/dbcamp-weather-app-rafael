@@ -1,0 +1,33 @@
+.imageIcon {
+    max-width: 3.563rem;
+    max-height: 3.563rem;
+}
+
+.loading {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circularProgress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.daysWeather {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+
+}
+
+.weatherInfo {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    flex: 1 0 100%;
+}

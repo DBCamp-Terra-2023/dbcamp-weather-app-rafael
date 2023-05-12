@@ -1,11 +1,11 @@
 import React from 'react'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Header from "../components/Header";
-import Home from "../../pages/Home/home";
-import Register from "../../pages/Register/register";
-import Listing from "../../pages/Listing/listing";
-import Footer from "../components/Footer";
-import ErrorPage from "../../pages/Error/error-page";
+import Header from "../ui/components/Header";
+import Home from "../pages/Home/home";
+import Register from "../pages/Register/register";
+import Listing from "../pages/Listing/listing";
+import Footer from "../ui/components/Footer";
+import ErrorPage from "../pages/Error/error-page";
 
 export const AppRoutes = () => {
   return (

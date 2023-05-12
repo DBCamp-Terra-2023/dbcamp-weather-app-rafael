@@ -6,7 +6,9 @@ const api = axios.create({
   baseURL: 'http://localhost:4767/api/v1/weather',
 })
 
-export function useFetch<T = unknown>(url: string, options?: AxiosRequestConfig) {
+export function useFetch<T = unknown>(
+  url: string,
+  options?: AxiosRequestConfig) {
   const [data, setData] = useState<T | null>(null);
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState<Error | null>(null);

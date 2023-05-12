@@ -163,3 +163,7 @@ select option {
     height: 3.563rem;
 }
 
+.warning {
+    font-size: 0.75rem;
+    color: #cc0000;
+}

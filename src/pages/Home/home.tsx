@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import {useFetch} from "../../hooks/useFetch";
 import CircularProgress from '@mui/material/CircularProgress';
-import snow from '../../assets/weather_images/both/snow.png';
-import storm from '../../assets/weather_images/both/storm.png';
-import cloudy_day from '../../assets/weather_images/day/cloudy_day.png';
-import rainy_day from '../../assets/weather_images/day/rainy_day.svg';
-import sun_with_clouds from '../../assets/weather_images/day/sun_with_clouds.svg';
-import sunny from '../../assets/weather_images/day/sunny.png';
-import clear_night from '../../assets/weather_images/night/clear_night.png';
-import cloudy_night from '../../assets/weather_images/night/cloudy_night.png';
-import rainy_night from '../../assets/weather_images/night/rainy_night.svg';
+import snow from '../../assets/home/weather_images/both/snow.png';
+import storm from '../../assets/home/weather_images/both/storm.png';
+import cloudy_day from '../../assets/home/weather_images/day/cloudy_day.png';
+import rainy_day from '../../assets/home/weather_images/day/rainy_day.png';
+import sun_with_clouds from '../../assets/home/weather_images/day/sun_with_clouds.png';
+import sunny from '../../assets/home/weather_images/day/sunny.png';
+import clear_night from '../../assets/home/weather_images/night/clear_night.png';
+import cloudy_night from '../../assets/home/weather_images/night/cloudy_night.png';
+import rainy_night from '../../assets/home/weather_images/night/rainy_night.png';
 import styles from './home.module.css';
 import Input from "../../ui/components/Input";
 import Button from "../../ui/components/Button";
@@ -19,7 +19,7 @@ type ImageData = {
 }
 
 type weatherData = {
-  idWheaterData: number;
+  idWeatherData: number;
   city: { name: string }
   date: string;
   dayTimeEnum: string;
@@ -32,7 +32,7 @@ type weatherData = {
 }
 
 function Home() {
-  const [cityName, setCityName] = useState("São Paulo");
+  const [cityName, setCityName] = useState("Santos");
   const {data: weatherList, isFetching} = useFetch<weatherData[]>(`${cityName}/list-all-week`);
 
   const currentHour = new Date().getHours();
@@ -64,7 +64,6 @@ function Home() {
 
   return (
     <div className={'flex gap-4 items-center text-center'}>
-      <Input/>
       <ul className={'flex-col gap-2 items-center text-center'}>
         {isFetching && (
           <div className={styles.loading}>
@@ -92,7 +91,7 @@ function Home() {
 
           return (
             <div className={styles.daysWeather}>
-              <li key={weather.idWheaterData} className={'flex-col gap-2 items-center text-center'}>
+              <li key={weather.idWeatherData} className={'flex-col gap-10 items-center text-center'}>
 
                 <p className={styles.weatherInfo}>{formattedDate}</p>{showDayTimeEnum && (
                 <>
@@ -103,7 +102,7 @@ function Home() {
                 {showNightTimeEnum && (
                   <>
                     <img className={styles.imageIcon} src={nightTimeEnumImage} alt={weather.nightTimeEnum}/>
-                    <p className={styles.weatherInfo}>{formatEnum(weather.dayTimeEnum)}</p>
+                    <p className={styles.weatherInfo}>{formatEnum(weather.nightTimeEnum)}</p>
                   </>
                 )}
                 <p className={styles.weatherInfo}>{weather.maxTemperature}ºC</p>

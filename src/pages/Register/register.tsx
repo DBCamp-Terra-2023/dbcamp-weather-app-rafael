@@ -1,19 +1,16 @@
-import React, {useState} from 'react'
 import Input from "../../ui/components/Input";
 import Button from "../../ui/components/Button";
 import styles from './register.module.css';
 import {z} from "zod";
 import {zodResolver} from '@hookform/resolvers/zod'
-import {useForm} from "react-hook-form";
+import {useForm, useWatch} from "react-hook-form";
 import axios from "axios";
-import {usePost} from "../../hooks/usePost";
+import {useFetch} from "../../hooks/useFetch";
+import {WeatherData} from "../../@types/WeatherData";
 
 const createRegisterFormSchema = z.object({
   city: z
     .object({
-      idCity: z
-        .coerce
-        .number(),
       name: z
         .string()
         .nonempty('O nome da cidade é obrigatório')
@@ -38,36 +35,37 @@ const createRegisterFormSchema = z.object({
     .string()
     .nonempty("A previsão da noite é obrigatória")
     .refine((value) => value !== "selectNight", "Selecione um valor válido"),
-  maxTemperature: z.coerce
-    .number({
-      required_error: "A temperatura máxima é obrigatória",
-    })
-    .min(-20, "A temperatura mínima não pode ser menor que -20ºC")
-    .max(48, "A temperatura máxima não pode ser maior que 48ºC"),
-  minTemperature: z.coerce
-    .number({
-      required_error: "A temperatura mínima é obrigatória",
-    })
-    .min(-20, "A temperatura mínima não pode ser menor que -20ºC")
-    .max(48, "A temperatura máxima não pode ser maior que 48ºC"),
-  precipitation: z.coerce
-    .number({
-      required_error: "A precipitação é obrigatória",
-    })
-    .max(100, "A precipitação não pode ser maior que 100%")
-    .min(0, "A precipitação não pode ser menor que 0%"),
-  humidity: z.coerce
-    .number({
-      required_error: "A umidade é obrigatória",
-    })
-    .max(100, "A umidade não pode ser maior que 100%")
-    .min(0, "A umidade não pode ser menor que 0%"),
-  windSpeed: z.coerce
-    .number({
-      required_error: "A velocidade do vento é obrigatória",
-    })
-    .min(1, "A velocidade do vento não pode ser menor que 1km/h")
-    .max(520, "A velocidade do vento não pode ser maior que 520km/h"),
+  maxTemperature: z
+    .string()
+    .nonempty("A temperatura máxima é obrigatória")
+    .refine(value =>
+        (parseInt(value) >= -20 && parseInt(value) <= 48),
+      'A temperatura máxima deve estar entre -20ºC e 48ºC'),
+  minTemperature: z
+    .string()
+    .nonempty("A temperatura mínima é obrigatória")
+    .refine(value =>
+        (parseInt(value) >= -20 && parseInt(value) <= 48),
+      'A temperatura máxima deve estar entre -20ºC e 48ºC'),
+  precipitation: z
+    .string()
+    .nonempty("A precipitação é obrigatória")
+    .refine(value =>
+        (parseInt(value) >= 0 && parseInt(value) <= 100),
+      'A precipitação deve estar entre 0% e 100%'),
+  humidity: z
+    .string()
+    .nonempty("A umidade é obrigatória")
+    .refine(value =>
+        (parseInt(value) >= 0 && parseInt(value) <= 100),
+      'A umidade deve estar entre 0% e 100%'),
+  windSpeed: z
+    .string()
+    .nonempty("A velocidade do vento é obrigatória")
+
+    .refine(value =>
+        (parseInt(value) >= 0 && parseInt(value) <= 520),
+      'A velocidade do vento deve estar entre 0km/h e 520km/h'),
 });
 
 type CreateRegisterFormData = z.infer<typeof createRegisterFormSchema>;
@@ -81,12 +79,25 @@ function Register() {
     control,
   } = useForm<CreateRegisterFormData>({
     resolver: zodResolver(createRegisterFormSchema),
+    mode: "onChange",
+    criteriaMode: "firstError",
+    shouldFocusError: true,
   });
-  const [error, setError] = useState<Error | null>(null);
 
-  const onSubmit = async (data: any) => {
+  const watchedFields = useWatch({
+    control,
+    name: ['city', 'date', 'dayTimeEnum', 'nightTimeEnum'],
+  });
+  const isDisabled = watchedFields.some(
+    (value, index) => {
+      return index === 2 || index === 3 ? value === 'selectDay' || value === 'selectNight' : !value;
+    }
+  );
+
+  const onSubmit = async (data: CreateRegisterFormData) => {
     try {
       await axios.post('http://localhost:4767/api/v1/weather/register', data);
+      console.log(data);
       alert('Cadastro realizado com sucesso');
     } catch (error) {
       console.log(data);
@@ -109,18 +120,15 @@ function Register() {
             type={'text'}
             className={styles.city}
             label={'Cidade'}
+            required={true}
             register={register('city.name')}
           />
           {errors.city?.name && <span className={styles.warning}>{errors.city.name.message}</span>}
           <Input
-            type={'hidden'}
-            value={1}
-            register={register('city.idCity')}
-          />
-          <Input
             type={'date'}
             className={styles.date}
             label={'Data'}
+            required={true}
             register={register('date')}
           />
           {errors.date && <span className={styles.warning}>{errors.date.message}</span>}
@@ -130,7 +138,7 @@ function Register() {
             <div className={styles.shift}>
               <div className={styles.weather}>
                 <>
-                  <label htmlFor={'select'} className={styles.labelCard}>Tempo</label>
+                  <label htmlFor={'select'} className={styles.labelCard}>Tempo*</label>
                   <select
                     defaultValue="selectDay"
                     {...register('dayTimeEnum')}
@@ -180,6 +188,7 @@ function Register() {
                   label={'Temperatura Máxima'}
                   type={'number'}
                   className={styles.numberFields}
+                  required={true}
                   register={register('maxTemperature')}
                 />
                 {errors.maxTemperature &&
@@ -188,6 +197,7 @@ function Register() {
                   label={'Temperatura Mínima'}
                   type={'number'}
                   className={styles.numberFields}
+                  required={true}
                   register={register('minTemperature')}
                 />
                 {errors.minTemperature &&
@@ -199,6 +209,7 @@ function Register() {
                   label={'Precipitação'}
                   type={'number'}
                   className={styles.numberFields}
+                  required={true}
                   register={register('precipitation')}
                 />
                 {errors.precipitation &&
@@ -207,6 +218,7 @@ function Register() {
                   label={'Umidade'}
                   type={'number'}
                   className={styles.numberFields}
+                  required={true}
                   register={register('humidity')}
                 />
                 {errors.humidity &&
@@ -215,6 +227,7 @@ function Register() {
                   label={'Velocidade do Vento'}
                   type={'number'}
                   className={styles.numberFields}
+                  required={true}
                   register={register('windSpeed')}
                 />
                 {errors.windSpeed &&
@@ -225,8 +238,17 @@ function Register() {
         </div>
 
         <div className={styles.buttons}>
-          <Button value={'Cancelar'} id={'cancel'}/>
-          <Button value={'Salvar'} id={'save'} type={"submit"}/>
+          <Button
+            value={'Cancelar'}
+            id={'cancel'}
+          />
+
+          <Button
+            disabled={!watchedFields.every(Boolean) || isDisabled}
+            value={'Salvar'}
+            id={'save'}
+            type={"submit"}
+          />
         </div>
       </form>
 

@@ -11,34 +11,20 @@ import clear_night from '../../assets/home/weather_images/night/clear_night.png'
 import cloudy_night from '../../assets/home/weather_images/night/cloudy_night.png';
 import rainy_night from '../../assets/home/weather_images/night/rainy_night.png';
 import styles from './home.module.css';
-import Input from "../../ui/components/Input";
-import Button from "../../ui/components/Button";
+import {WeatherData} from "../../@types/WeatherData";
 
 type ImageData = {
   [key: string]: string;
 }
 
-type weatherData = {
-  idWeatherData: number;
-  city: { name: string }
-  date: string;
-  dayTimeEnum: string;
-  nightTimeEnum: string;
-  maxTemperature: number;
-  minTemperature: number;
-  precipitation: number;
-  humidity: number;
-  windSpeed: number;
-}
-
 function Home() {
   const [cityName, setCityName] = useState("Santos");
-  const {data: weatherList, isFetching} = useFetch<weatherData[]>(`${cityName}/list-all-week`);
+  const {data: weatherList, isFetching} = useFetch<WeatherData[]>(`${cityName}/list-all-week`);
 
   const currentHour = new Date().getHours();
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const date = new Date(dateStr + ' GMT-0300');
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
@@ -75,7 +61,7 @@ function Home() {
           // Conditionally render the dayTimeEnum and nightTimeEnum
           const formattedDate = formatDate(weather.date);
 
-          const showDayTimeEnum = currentHour >= 0 && currentHour < 17;
+          const showDayTimeEnum = currentHour >= 0 && currentHour < 18;
           const showNightTimeEnum = currentHour >= 18 && currentHour < 23;
 
           const dayTimeEnumImage = dayImages[weather.dayTimeEnum];

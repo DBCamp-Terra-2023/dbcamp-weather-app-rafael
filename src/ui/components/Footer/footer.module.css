@@ -2,11 +2,9 @@
     background: linear-gradient(180deg, rgba(149, 125, 205, 0.5) 0%, rgba(82, 61, 127, 0.5) 100%);
     display: flex;
     border-radius: 0.938rem;
-    margin-bottom: 2.21%;
-    margin-right: 30px;
-    margin-left: 1.5%;
+    margin: 0 1.945% 1.528% 1.945%;
     list-style: none;
-    width: 96.18vw;
+    width: 96.181vw;
     height: 4.5rem;
     align-items: center;
     justify-content: center;

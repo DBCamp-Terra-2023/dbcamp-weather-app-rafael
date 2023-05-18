@@ -1,7 +1,19 @@
 .container {
-    margin-top: 3.68%;
-    margin-bottom: 8.96%;
-    margin-left: 4.5%;
+    display: flex;
+    flex-direction: column;
+    margin: 2.995% 6.198% 7.382%;
+}
+
+.title {
+    display: flex;
+    text-align: left;
+    flex: 1 0 100%;
+    max-width: 85%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    margin-bottom: 3rem;
 }
 
 .register {
@@ -9,17 +21,20 @@
     flex-wrap: wrap;
 }
 
-.title {
+
+.cityAndDate {
     display: flex;
-    text-align: left;
-    flex: 1 0 100%;
-    max-width: 600px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 2rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: .75rem;
-    margin-bottom: 4.125rem;
+    flex-direction: row;
+    gap: 13.89%;
+    flex: 1 0 65vw;
+    max-width: 85%;
+    margin-right: auto;
+}
+
+
+.city {
+    width: 23.125rem;
+    height: 3.563rem;
 }
 
 .date {
@@ -32,77 +47,60 @@
     max-width: 800px;
 }
 
-.city {
-    width: 23.125rem;
-    height: 3.563rem;
-}
-
-.cityDate {
-    display: flex;
-    flex-direction: row;
-    gap: 13.89%;
-    flex: 1 0 65vw;
-    max-width: 85%;
-
-}
 
 .temperatureCard {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 5.47%;
-    margin-bottom: 8.74%;
+    margin-top: 4.915%;
+    margin-bottom: 7.849%;
 }
 
 .buttons {
-    margin-left: 44.2%;
+    display: flex;
+    margin: 0 0 0 auto;
 }
 
 .cardContainer {
     display: flex;
-    /*background: linear-gradient(180deg, rgba(149, 125, 205, 0.5) 0%, rgba(82, 61, 127, 0.5) 100%);*/
     background: linear-gradient(180deg, rgba(149, 125, 205, 0.5) 0%, rgba(82, 61, 127, 0.5) 100%);
     border-radius: 0.938rem;
     list-style: none;
-    width: 87.71vw;
-    height: 34.95vh;
-    padding-bottom: 1.5rem;
+    width: 87.57vw;
+    height: 34.78vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .labelCard {
-    margin-bottom: -.52rem;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-.shift {
+.nightClimate {
     display: flex;
-    margin-top: 6.2%;
-    margin-left: 3%;
-}
-
-.dayNight {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 2%;
-    margin-left: 2%;
-}
-
-.weather {
-    display: flex;
-    flex-direction: column;
     gap: 2.42rem;
-    margin-top: 2%;
-    margin-left: 2%;
+}
+
+.dayClimate {
+    display: flex;
+    gap: 2.42rem;
 }
 
 
 .dayNightInput {
+    margin-bottom: 1rem;
     width: 5.688rem;
     height: 3.563rem;
 }
 
 
 select {
+    display: flex;
+    margin: auto auto 1rem auto;
     background: linear-gradient(180deg, rgba(149, 125, 205, 0.5) 0%, rgba(82, 61, 127, 0.5) 100%);
     border-radius: 0.938rem;
     border: none;
@@ -133,22 +131,22 @@ select option {
 }
 
 .weatherDataNumbers {
-    margin-left: 16.63%;
-    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: 14.5833vw;
+    gap: 1rem;
 }
 
 .temperatureData {
     display: flex;
     text-align: left;
-    gap: 8rem;
-    margin-top: 8%;
+    gap: 9vw;
 }
 
 .weatherData {
     display: flex;
     text-align: left;
-    gap: 10%;
-    margin-top: 5.2%;
+    gap: 4.1vw;
 }
 
 .rain {
@@ -164,6 +162,18 @@ select option {
 }
 
 .warning {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: #cc0000;
+}
+
+.inputWithErrors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.selectAndInputContainer {
+    display: flex;
+    flex-direction: row;
+    margin: 6.6196vh 0 0 1.181vw;
 }

@@ -155,7 +155,7 @@ select option {
 }
 
 .numberFields {
-    padding: 0;
+    padding: 0 1.25rem 0 0;
     text-align: center;
     width: 74px;
     height: 3.563rem;

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useFetch} from "../../hooks/useFetch";
-import CircularProgress from '@mui/material/CircularProgress';
 import snow from '../../assets/home/weather_images/both/snow.png';
 import storm from '../../assets/home/weather_images/both/storm.png';
 import cloudy_day from '../../assets/home/weather_images/day/cloudy_day.png';
@@ -53,8 +52,7 @@ function Home() {
       <ul className={'flex-col gap-2 items-center text-center'}>
         {isFetching && (
           <div className={styles.loading}>
-            <CircularProgress sx={{mx: 'auto', my: 'auto', display: 'block'}}/>
-
+            //TODO Adicionar nova barra de progresso/loading
           </div>
         )}
         {weatherList?.map(weather => {

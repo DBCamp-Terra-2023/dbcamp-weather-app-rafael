@@ -1,8 +1,7 @@
 .button {
     background: linear-gradient(180deg, rgba(149, 125, 205, 0.55) 0%, rgba(82, 61, 127, 0.55) 100%);
     transition-duration: 0.3s;
-    margin-left: 1.68rem;
-    margin-right: 1.68rem;
+    margin-left: 6.205%;
     height: 3.625rem;
     width: 17.125rem;
     border-radius: 11rem;
